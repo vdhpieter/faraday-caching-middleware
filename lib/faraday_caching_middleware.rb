@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry-initializer'
+require 'Faraday'
 
 class FaradayCachingMiddleware < Faraday::Middleware
   extend Dry::Initializer
@@ -38,13 +39,11 @@ class FaradayCachingMiddleware < Faraday::Middleware
   end
 
   def expiry(request_env)
-    return request_env[:context][:expiry] if request_env&.dig(:context, :expiry)
     return config[:expiry] if config&.dig(:expiry)
     5 * 60 # 5 minutes
   end
 
   def grace(request_env)
-    return request_env[:context][:grace] if request_env&.dig(:context, :gracd)
     return config[:grace] if config&.dig(:grace)
     30 * 60 # 30 minutes
   end

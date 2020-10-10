@@ -32,15 +32,3 @@ sleep 30
 
 p "=== Fourth request after 30s (will not return cache and refetch) ==="
 p client.get("/api/ip")
-
-p "=== Fifth request, with different url to test overriden config ==="
-p client.get("/api/ip", {test: 123}) do |req|
-  # Does not work for now
-  req.options.context = {
-    expiry: 0,
-    grace: 0
-  }
-end
-
-p "=== Sixth request, with different url that should not be cached because of overriden config ==="
-p client.get("/api/ip", {test: 123})
